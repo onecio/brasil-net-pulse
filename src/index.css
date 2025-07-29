@@ -2,39 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Design system inspirado no Brasil - cores modernas baseadas na identidade nacional */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 20% 98%;
+    --foreground: 200 35% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 200 35% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 200 35% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Verde Brasil moderno */
+    --primary: 154 60% 20%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 154 55% 45%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Azul Brasil sofisticado */
+    --secondary: 215 85% 35%;
+    --secondary-foreground: 0 0% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Amarelo Brasil sutil */
+    --accent: 45 85% 60%;
+    --accent-foreground: 200 35% 12%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Status colors */
+    --success: 154 60% 35%;
+    --success-foreground: 0 0% 98%;
+    --warning: 45 85% 55%;
+    --warning-foreground: 200 35% 12%;
+    --danger: 0 84% 60%;
+    --danger-foreground: 0 0% 98%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 154 60% 20%;
+
+    /* Gradients */
+    --gradient-brazil: linear-gradient(135deg, hsl(154 60% 20%), hsl(215 85% 35%));
+    --gradient-success: linear-gradient(135deg, hsl(154 60% 35%), hsl(154 55% 45%));
+    --gradient-warning: linear-gradient(135deg, hsl(45 85% 55%), hsl(45 80% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(154 60% 20%) 0%, hsl(215 85% 35%) 50%, hsl(45 85% 60%) 100%);
+
+    /* Shadows */
+    --shadow-brazil: 0 10px 30px -10px hsl(154 60% 20% / 0.3);
+    --shadow-status: 0 4px 12px -4px hsl(var(--primary) / 0.25);
 
     --radius: 0.5rem;
 

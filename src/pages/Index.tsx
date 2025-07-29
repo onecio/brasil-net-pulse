@@ -1,11 +1,136 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { DashboardHeader } from "@/components/DashboardHeader";
+import { StatisticsOverview } from "@/components/StatisticsOverview";
+import { ServiceSection } from "@/components/ServiceSection";
+import { generateMockData } from "@/data/monitoringData";
+import { 
+  Router, 
+  Cloud, 
+  Server, 
+  Building2, 
+  Globe, 
+  Mail, 
+  CreditCard, 
+  Users, 
+  Layers,
+  Shield
+} from "lucide-react";
 
 const Index = () => {
+  const [data, setData] = useState(generateMockData());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(new Date().toLocaleString('pt-BR'));
+
+  // Calcular estatísticas
+  const allServices = [
+    ...data.ptts,
+    ...data.microsoft,
+    ...data.cloudflare,
+    ...data.serpro,
+    ...data.government,
+    ...data.google,
+    ...data.banks,
+    ...data.social,
+    ...data.cdns
+  ];
+
+  const totalServices = allServices.length;
+  const onlineServices = allServices.filter(service => service.status === "online").length;
+  const avgLatency = Math.round(allServices.reduce((acc, service) => acc + (service.latency || 0), 0) / totalServices);
+  const totalIncidents = allServices.filter(service => service.status === "offline").length;
+  const uptime = Math.round((onlineServices / totalServices) * 100);
+  const responseTime = Math.round(allServices.reduce((acc, service) => acc + (service.latency || 0), 0) / totalServices);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      setData(generateMockData());
+      setLastUpdate(new Date().toLocaleString('pt-BR'));
+      setIsRefreshing(false);
+    }, 2000);
+  };
+
+  // Auto-refresh a cada 30 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setData(generateMockData());
+      setLastUpdate(new Date().toLocaleString('pt-BR'));
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-6">
+        <DashboardHeader
+          totalServices={totalServices}
+          onlineServices={onlineServices}
+          lastUpdate={lastUpdate}
+          onRefresh={handleRefresh}
+          isRefreshing={isRefreshing}
+        />
+
+        <StatisticsOverview
+          avgLatency={avgLatency}
+          totalIncidents={totalIncidents}
+          uptime={uptime}
+          responseTime={responseTime}
+        />
+
+        <ServiceSection
+          title="Pontos de Troca de Tráfego (PTTs)"
+          services={data.ptts}
+          icon={<Router className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Microsoft Azure & Office 365"
+          services={data.microsoft}
+          icon={<Cloud className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Cloudflare"
+          services={data.cloudflare}
+          icon={<Server className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="SERPRO"
+          services={data.serpro}
+          icon={<Shield className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Governo Federal"
+          services={data.government}
+          icon={<Building2 className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Google Services"
+          services={data.google}
+          icon={<Mail className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Bancos Brasileiros"
+          services={data.banks}
+          icon={<CreditCard className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="Redes Sociais"
+          services={data.social}
+          icon={<Users className="h-6 w-6 text-primary" />}
+        />
+
+        <ServiceSection
+          title="CDNs"
+          services={data.cdns}
+          icon={<Layers className="h-6 w-6 text-primary" />}
+        />
       </div>
     </div>
   );
