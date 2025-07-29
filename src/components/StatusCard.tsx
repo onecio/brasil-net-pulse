@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, AlertCircle, XCircle, Clock } from "lucide-react";
+import { CheckCircle, XCircle, Clock } from "lucide-react";
+import { useCheckOnline } from "@/hooks/use-check-online";
 
 interface StatusCardProps {
   name: string;
@@ -11,80 +12,47 @@ interface StatusCardProps {
   lastChecked?: string;
   description?: string;
 }
-
-export const StatusCard = ({ 
-  name, 
-  url, 
-  status, 
-  latency, 
-  uptime, 
-  lastChecked, 
-  description 
+export const StatusCard = ({
+  name,
+  url,
+  status,
+  latency,
+  uptime,
+  lastChecked,
+  description
 }: StatusCardProps) => {
-  const getStatusIcon = () => {
-    switch (status) {
-      case "online":
-        return <CheckCircle className="h-5 w-5 text-success" />;
-      case "slow":
-        return <AlertCircle className="h-5 w-5 text-warning" />;
-      case "offline":
-        return <XCircle className="h-5 w-5 text-danger" />;
-      case "checking":
-        return <Clock className="h-5 w-5 text-muted-foreground animate-spin" />;
-    }
-  };
+  // Checagem real de status online
+  const isOnline = useCheckOnline(url);
 
-  const getStatusBadge = () => {
-    switch (status) {
-      case "online":
-        return <Badge className="bg-success text-success-foreground">Online</Badge>;
-      case "slow":
-        return <Badge className="bg-warning text-warning-foreground">Lento</Badge>;
-      case "offline":
-        return <Badge className="bg-danger text-danger-foreground">Offline</Badge>;
-      case "checking":
-        return <Badge variant="outline">Verificando...</Badge>;
-    }
-  };
+  let icon, badge, bgClass;
+  if (isOnline === null) {
+    icon = <Clock className="h-7 w-7 text-muted-foreground animate-spin" />;
+    badge = <Badge variant="outline" className="px-3 py-1 text-base rounded-full">Verificando...</Badge>;
+    bgClass = 'from-gray-50 via-white to-gray-100';
+  } else if (isOnline) {
+    icon = <CheckCircle className="h-7 w-7 text-success drop-shadow-lg" />;
+    badge = <Badge className="bg-success text-success-foreground px-3 py-1 text-base rounded-full shadow">Online</Badge>;
+    bgClass = 'from-green-50 via-white to-green-100';
+  } else {
+    icon = <XCircle className="h-7 w-7 text-danger drop-shadow-lg" />;
+    badge = <Badge className="bg-danger text-danger-foreground px-3 py-1 text-base rounded-full shadow">Offline</Badge>;
+    bgClass = 'from-red-50 via-white to-red-100';
+  }
 
   return (
-    <Card className="p-4 hover:shadow-[var(--shadow-status)] transition-all duration-300 hover:scale-105 border-l-4 border-l-primary">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-2">
-          {getStatusIcon()}
-          <h3 className="font-semibold text-card-foreground">{name}</h3>
+    <Card className={`p-6 rounded-2xl shadow-xl border-0 bg-gradient-to-br ${bgClass} transition-all duration-300 hover:scale-[1.03]`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-3">
+          {icon}
+          <h3 className="font-bold text-xl text-card-foreground leading-tight drop-shadow-sm">{name}</h3>
         </div>
-        {getStatusBadge()}
+        {badge}
       </div>
-      
       {description && (
-        <p className="text-sm text-muted-foreground mb-3">{description}</p>
+        <p className="text-xs text-muted-foreground mb-2 italic">{description}</p>
       )}
-      
       {url && (
-        <p className="text-xs text-muted-foreground mb-2 truncate">{url}</p>
-      )}
-      
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        {latency && (
-          <div>
-            <span className="text-muted-foreground">Latência:</span>
-            <span className="ml-1 font-medium text-card-foreground">{latency}ms</span>
-          </div>
-        )}
-        
-        {uptime && (
-          <div>
-            <span className="text-muted-foreground">Uptime:</span>
-            <span className="ml-1 font-medium text-card-foreground">{uptime}%</span>
-          </div>
-        )}
-      </div>
-      
-      {lastChecked && (
-        <p className="text-xs text-muted-foreground mt-2">
-          Última verificação: {lastChecked}
-        </p>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline mb-2 block truncate">{url}</a>
       )}
     </Card>
   );

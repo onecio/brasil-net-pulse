@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+      boxShadow: {
+        'status': '0 0 15px 1px hsl(var(--primary-glow))',
+      },
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

@@ -131,6 +131,19 @@ const Index = () => {
           services={data.cdns}
           icon={<Layers className="h-6 w-6 text-primary" />}
         />
+
+        <footer className="mt-12 py-6 border-t border-border/50">
+          <div className="container mx-auto px-4">
+            <h3 className="text-lg font-semibold text-center mb-4 text-foreground">Outros Recursos de Monitoramento</h3>
+            <div className="flex justify-center items-center gap-6 flex-wrap">
+              <a href="https://ix.br/trafego/pix/df" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tráfego PIX DF</a>
+              <a href="https://downdetector.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Downdetector</a>
+              <a href="https://www.thousandeyes.com/outages/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">ThousandEyes Outages</a>
+              <a href="https://www.cloudflarestatus.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cloudflare Status</a>
+              <a href="https://ix.br/trafego/agregado/df" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors">Tráfego Agregado DF</a>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );

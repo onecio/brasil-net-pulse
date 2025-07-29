@@ -152,7 +152,61 @@ export const generateMockData = () => {
         description: "Portal oficial do governo brasileiro"
       },
       {
-        name: "CADE.GOV.BR",
+        name: "Portal da Transparência",
+        url: "https://portaldatransparencia.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Transparência do governo federal"
+      },
+      {
+        name: "Conecte SUS",
+        url: "https://conectesus-paciente.saude.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Plataforma de saúde do cidadão"
+      },
+      {
+        name: "Portal e-CAC Receita Federal",
+        url: "https://cav.receita.fazenda.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Centro Virtual de Atendimento ao Contribuinte"
+      },
+      {
+        name: "INSS Meu INSS",
+        url: "https://meu.inss.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Serviços do INSS online"
+      },
+      {
+        name: "Portal Emprega Brasil",
+        url: "https://empregabrasil.mte.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Plataforma de empregos do governo federal"
+      },
+      {
+        name: "Portal Sisu MEC",
+        url: "https://sisu.mec.gov.br/",
+        status: getRandomStatus(),
+        latency: getRandomLatency(),
+        uptime: getRandomUptime(),
+        lastChecked: getCurrentTime(),
+        description: "Sistema de Seleção Unificada do MEC"
+      },
+      {
+        name: "Portal CADE",
         url: "https://www.gov.br/cade/",
         status: getRandomStatus(),
         latency: getRandomLatency(),
@@ -168,15 +222,6 @@ export const generateMockData = () => {
         uptime: getRandomUptime(),
         lastChecked: getCurrentTime(),
         description: "Sistema de acesso do CADE"
-      },
-      {
-        name: "Portal da Transparência",
-        url: "https://portaldatransparencia.gov.br/",
-        status: getRandomStatus(),
-        latency: getRandomLatency(),
-        uptime: getRandomUptime(),
-        lastChecked: getCurrentTime(),
-        description: "Transparência do governo federal"
       }
     ],
 
