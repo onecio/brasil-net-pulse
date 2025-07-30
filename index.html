@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monitor Brasil - Monitoramento em Tempo Real</title>
+    <script>
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <title>Brasil Net Pulse</title>
     <meta name="description" content="Plataforma de monitoramento em tempo real da infraestrutura digital brasileira" />
     <meta name="author" content="Monitor Brasil" />
 

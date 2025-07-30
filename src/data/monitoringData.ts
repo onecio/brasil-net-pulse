@@ -1,3 +1,10 @@
+/**
+ * @file monitoringData.ts
+ * @description Define a estrutura de dados para os serviços a serem monitorados na aplicação.
+ * Cada categoria (e.g., ptts, microsoft) contém uma lista de objetos de serviço,
+ * cada um com um nome, URL e descrição.
+ */
+
 export const servicesToMonitor = {
   ptts: [
     {

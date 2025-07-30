@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Clock, AlertTriangle } from "lucide-react";
 import { Service } from "@/lib/monitoring";
+import LatencyChart from "./LatencyChart"; // Import the new component
 
 const statusConfig = {
   online: {
@@ -29,21 +30,28 @@ export const StatusCard = (service: Service) => {
   const config = statusConfig[service.status] || statusConfig.checking;
 
   return (
-    <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-md">
-      <div className="flex items-center gap-3">
-        {config.icon}
-        <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-300 hover:text-white transition-colors">
-          {service.name}
-        </a>
+    <div className="flex flex-col p-3 bg-gray-900/50 rounded-md">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {config.icon}
+          <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-300 hover:text-white transition-colors">
+            {service.name}
+          </a>
+        </div>
+        <div className="flex items-center gap-4">
+          {service.latency > 0 && (
+            <span className="text-xs text-gray-400">{service.latency}ms</span>
+          )}
+          <Badge variant="outline" className={`px-2 py-1 text-xs rounded-full ${config.badgeClass}`}>
+            {config.text}
+          </Badge>
+        </div>
       </div>
-      <div className="flex items-center gap-4">
-        {service.latency > 0 && (
-          <span className="text-xs text-gray-400">{service.latency}ms</span>
-        )}
-        <Badge variant="outline" className={`px-2 py-1 text-xs rounded-full ${config.badgeClass}`}>
-          {config.text}
-        </Badge>
-      </div>
+      {service.latencyHistory && service.latencyHistory.length > 0 && (
+        <div className="mt-2">
+          <LatencyChart data={service.latencyHistory} />
+        </div>
+      )}
     </div>
   );
 };

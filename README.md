@@ -1,73 +1,120 @@
-# Welcome to your Lovable project
+# Brasil Net Pulse
 
-## Project info
+## Visão Geral do Projeto
 
-**URL**: https://lovable.dev/projects/2a8c18aa-25a1-44fd-8ada-a2c7d3218ea5
+O Brasil Net Pulse é uma plataforma de monitoramento em tempo real da infraestrutura digital brasileira. Ele acompanha a latência e o status de serviços essenciais, como Pontos de Troca de Tráfego (PTTs), serviços de nuvem (Microsoft Azure, Google Cloud, Cloudflare), serviços governamentais (SERPRO, GOV.BR, Receita Federal, INSS), bancos e redes sociais.
 
-## How can I edit this code?
+A aplicação foi desenvolvida para fornecer uma visão clara e imediata da saúde da rede, ajudando a identificar rapidamente problemas de conectividade ou desempenho em serviços críticos para o Brasil.
 
-There are several ways of editing your application.
+## Funcionalidades
 
-**Use Lovable**
+-   **Monitoramento em Tempo Real**: Verifica a latência e o status (online, lento, offline) de uma lista predefinida de serviços.
+-   **Dados Reais**: A latência e o status são obtidos através de requisições HTTP `HEAD` diretas para as URLs dos serviços, garantindo que os dados refletem as condições atuais da rede.
+-   **Interface Intuitiva**: Apresenta os dados de forma clara e organizada, com cartões de status para cada serviço.
+-   **Gráficos de Latência**: Exibe um histórico visual da latência para cada serviço, permitindo identificar tendências e picos de desempenho.
+-   **Responsivo**: Design adaptável para diferentes tamanhos de tela.
+-   **Deploy no GitHub Pages**: Configurado para fácil publicação e acesso via GitHub Pages.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2a8c18aa-25a1-44fd-8ada-a2c7d3218ea5) and start prompting.
+## Como os Dados de Latência e Status são Obtidos
 
-Changes made via Lovable will be committed automatically to this repo.
+A aplicação utiliza a função `checkServiceStatus` (localizada em `src/lib/monitoring.ts`) para realizar requisições HTTP `HEAD` para cada URL de serviço configurada.
 
-**Use your preferred IDE**
+1.  **Medição de Latência**: O tempo entre o início da requisição e a recepção da resposta é medido para determinar a latência.
+2.  **Determinação de Status**:
+    *   Se a requisição for bem-sucedida e a latência for baixa (abaixo de 1000ms), o status é `online`.
+    *   Se a requisição for bem-sucedida, mas a latência for alta (acima de 1000ms), o status é `slow`.
+    *   Se a requisição falhar (por exemplo, erro de rede, serviço indisponível), o status é `offline`.
+3.  **Histórico de Latência**: A aplicação armazena um pequeno histórico das últimas medições de latência para cada serviço, permitindo a visualização de gráficos de tendência.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Isso garante que os dados exibidos são baseados em medições reais e não são arbitrários.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Tecnologias Utilizadas
 
-Follow these steps:
+-   **React**: Biblioteca JavaScript para construção da interface do usuário.
+-   **Vite**: Ferramenta de build para desenvolvimento front-end rápido.
+-   **TypeScript**: Superset de JavaScript que adiciona tipagem estática.
+-   **Tailwind CSS**: Framework CSS utilitário para estilização rápida e responsiva.
+-   **Shadcn/ui**: Componentes de UI reutilizáveis e acessíveis construídos com Tailwind CSS e Radix UI.
+-   **React Router DOM**: Para gerenciamento de rotas na aplicação.
+-   **Recharts**: Biblioteca de gráficos para visualização de dados.
+-   **gh-pages**: Para deploy fácil no GitHub Pages.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Instalação e Uso
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Para configurar e rodar o projeto localmente:
 
-# Step 3: Install the necessary dependencies.
-npm i
+1.  **Clone o repositório**:
+    ```bash
+    git clone https://github.com/onecio/brasil-net-pulse.git
+    cd brasil-net-pulse
+    ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+2.  **Instale as dependências**:
+    ```bash
+    npm install
+    # ou se você usa yarn
+    # yarn install
+    # ou se você usa pnpm
+    # pnpm install
+    ```
+
+3.  **Inicie o servidor de desenvolvimento**:
+    ```bash
+    npm run dev
+    ```
+    A aplicação estará disponível em `http://localhost:8080`.
+
+4.  **Build para Produção**:
+    ```bash
+    npm run build
+    ```
+    Os arquivos de build serão gerados na pasta `dist/`.
+
+## Deploy no GitHub Pages
+
+Este projeto está configurado para ser facilmente publicado no GitHub Pages.
+
+1.  **Configure a `homepage` no `package.json`**:
+    Certifique-se de que a propriedade `homepage` no seu `package.json` aponte para o URL correto do seu GitHub Pages (ex: `https://<seu-usuario>.github.io/<nome-do-repositorio>`).
+
+2.  **Execute o script de deploy**:
+    ```bash
+    npm run deploy
+    ```
+    Este comando irá:
+    *   Construir a aplicação para produção (`npm run build`).
+    *   Publicar o conteúdo da pasta `dist/` na branch `gh-pages` do seu repositório.
+
+Após o deploy, sua aplicação estará acessível no URL configurado na `homepage`.
+
+## Estrutura do Projeto
+
+```
+.
+├── public/                 # Arquivos estáticos e 404.html para GitHub Pages
+├── src/
+│   ├── App.tsx             # Componente principal da aplicação e configuração de rotas
+│   ├── main.tsx            # Ponto de entrada da aplicação
+│   ├── index.css           # Estilos globais
+│   ├── components/         # Componentes React reutilizáveis
+│   │   ├── ui/             # Componentes Shadcn/ui
+│   │   └── ...             # Outros componentes da aplicação
+│   ├── data/
+│   │   └── monitoringData.ts # Dados dos serviços a serem monitorados
+│   ├── hooks/
+│   │   └── use-check-online.ts # Hook para verificar status online do navegador
+│   ├── lib/
+│   │   └── monitoring.ts   # Lógica principal para monitoramento de serviços
+│   │   └── utils.ts        # Funções utilitárias
+│   └── pages/
+│       ├── Index.tsx       # Página principal do dashboard
+│       └── NotFound.tsx    # Página 404
+├── package.json            # Dependências e scripts do projeto
+├── vite.config.ts          # Configuração do Vite
+├── tailwind.config.ts      # Configuração do Tailwind CSS
+└── tsconfig.json           # Configurações do TypeScript
 ```
 
-**Edit a file directly in GitHub**
+## Contribuição
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2a8c18aa-25a1-44fd-8ada-a2c7d3218ea5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
